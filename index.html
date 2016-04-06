@@ -41,9 +41,12 @@
 <h3>
 <a id="the-challenge" class="anchor" href="#the-challenge" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The Challenge</h3>
 
-<p>There are a few challenges when trying to parallelize the training process. 
--<strong>Synchronization:</strong> When using backward propagation, we need to make sure each cpu completes jobs layer by layer. 
--<strong>Real Time Data:</strong> Since we can get real time quotes for stock price, if we want to exploit this fact, we need to make sure each node has same up-to-date copy of data.</p>
+<p>There are a few challenges when trying to parallelize the training process. </p>
+
+<ul>
+<li>When using backward propagation, we need to make sure each cpu completes jobs layer by layer. </li>
+<li>Since we can get real time quotes for stock price, if we want to exploit this fact, we need to make sure each node has same up-to-date copy of data.</li>
+</ul>
 
 <h3>
 <a id="resources" class="anchor" href="#resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resources</h3>
