@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Project name by AdamXiaotCao</title>
+    <title>Parallelizing Neural Network Training for Stock Prediction by AdamXiaotCao</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Project name</h1>
+        <h1>Parallelizing Neural Network Training for Stock Prediction</h1>
         <p>Xiaotian Cao (xcao1)</p>
 
         <p class="view"><a href="https://github.com/AdamXiaotCao/418-project-website">View the Project on GitHub <small>AdamXiaotCao/418-project-website</small></a></p>
@@ -31,33 +31,61 @@
         <h3>
 <a id="summary" class="anchor" href="#summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
+<p>I am going to implement an application that predicts stock price. It would involve using neural network and I will parallelize the training process using multi-core cpu platforms/clusters. </p>
 
 <h3>
 <a id="background" class="anchor" href="#background" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Background</h3>
 
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
+<p>The training process for neural network has good potential for speedup. A neural network is usually composed of number of neurons separated into multiple levels. Matrix multiplication is usually involved in calculating weights for each neuron. In addition, when using backward propagation algorithm, at each layer, neurons are usually independent from each other. Therefore, we could compute weights for these independent neurons in parallel. Therefore, with large amount of data, we should see a significant speedup after we parallelized the training process.  </p>
 
 <h3>
 <a id="the-challenge" class="anchor" href="#the-challenge" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The Challenge</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>There are a few challenges when trying to parallelize the training process. 
+-<strong>Synchronization:</strong> When using backward propagation, we need to make sure each cpu completes jobs layer by layer. 
+-<strong>Real Time Data:</strong> Since we can get real time quotes for stock price, if we want to exploit this fact, we need to make sure each node has same up-to-date copy of data.</p>
 
 <h3>
 <a id="resources" class="anchor" href="#resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resources</h3>
 
-<p>You can <a href="https://help.github.com/articles/basic-writing-and-formatting-syntax/#mentioning-users-and-teams" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>For this project, I will use Lateday clusters to carry out the training process. Yahoo API will help me to obtain real-time stock quotes. Lastly, there are a few paper that talks about either stock prediction using Neural Networks or parallelizing Neural Networks training.
+1 Abhishek, K., A. Khairwa, T. Pratap, and S. Prakash. "A Stock Market Prediction Model Using Artificial Neural Network." 2012 Third International Conference on Computing, Communication and Networking Technologies (ICCCNT'12) (2012): n. pag. Web.
+2 Dahl, George, Alan McAvinney, and Tia Newhall. "Parallelizing neural network training for cluster systems." Proceedings of the IASTED International Conference on Parallel and Distributed Computing and Networks. ACTA Press, 2008.</p>
 
 <h3>
 <a id="goals-and-deliverables" class="anchor" href="#goals-and-deliverables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Goals and Deliverables</h3>
 
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+<ul>
+<li>
+<strong>Plan to achieve:</strong> 
+1) A program that emits stock price prediction about every second. It also displays actual stock price on the side.
+2) speed up that is close to linear in terms of number of nodes in the training process. I believe this can be done since the workload for calculating the weights for each neuron should be similar. 
+3) fairly accurate prediction of stock price for the next minute.
+4) a graph that shows prediction vs actual data</li>
+<li>
+<strong>Hope to achieve:</strong> 
+1) High accuracy prediction.
+2) Linear speed up or more than linear speed up.</li>
+</ul>
 
 <h3>
 <a id="platform-choice" class="anchor" href="#platform-choice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Platform Choice</h3>
 
+<p>I will use Latedays machine to help me speed up the training process. And I will use C++ as the language because I am planning to experiment SIMD and OpenMP. Latedays are powerful cluster that allows me to split tasks across nodes. SIMD and OpenMp would be helpful when performing matrix multiplcation. </p>
+
 <h3>
 <a id="schedule" class="anchor" href="#schedule" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Schedule</h3>
+
+<ul>
+<li>
+<strong>April 15</strong>: A working Neural Network implementation that is able to emit stock prediction.</li>
+<li>
+<strong>April 22</strong>: Parallelize matrix multiplication part.</li>
+<li>
+<strong>April 29</strong>: Parallelize training process in terms of layers.</li>
+<li>
+<strong>May 6</strong>: A program that constantly pulls real-time data and emit stock prediction.</li>
+</ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/AdamXiaotCao">AdamXiaotCao</a></p>
