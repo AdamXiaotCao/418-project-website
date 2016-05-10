@@ -20,6 +20,43 @@
 
     <section class="main-content">
       <h1>
+<a id="final-report" class="anchor" href="#final-report" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Final Report</h1>
+
+<h3>
+<a id="summary" class="anchor" href="#summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary</h3>
+
+<p>Since the project checkpoint, my project goal has diverted a little bit. For the final project, I implemented a framework for Neural Network training. It uses openmp to exploit the parallelism. Neural Network training process has the potential for parallelism when we update weights and calculate values for neurons. More specifically, neurons at the same level can be considered as independent to each other. Therefore, I used this observation to help me parallelize the training process of Neural Network. Overall, my implementation achieves a 35% speedup when training a network with 200 hidden neurons. It runs on GHC machine.</p>
+
+<h3>
+<a id="background" class="anchor" href="#background" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Background:</h3>
+
+<p>Neural Network uses Feed Forward algorithm to compute the value for each neuron. And it uses Back Propagation to update the weights between neurons. Feed Forward essentially computes the value of neuron by multiplying previous neurons and weights and then apply a transfer function. The weights are usually randomized at the beginning of the training. One can think of this process as multiple matrix multiplications between neurons and weights. At the end of feed forward algorithm, it will check the output against the actual data. And base on this result, it will update the weights accordingly, this way it improves accuracy of this neural network. The process of updating the weights is called Back propagation.</p>
+
+<h3>
+<a id="approach" class="anchor" href="#approach" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Approach:</h3>
+
+<p>Overall, the framework contains a neuralNetworkTrainer class that captures the essence of neural network. User can configure this class by constructing an object of it. User can then pass parameters such as number of iterations, momentum, and so on. Once user have constructed such object, he or she can then call the train() method to initiate the training process. Inside the neuralNetworkTrainer class, I used 2-d array to represent neural network. This representation allowed me to use openmp easily. The train method invokes feed forward and back propagate to continuously update the neural network until the network is able to predict results with high enough accuracy. Inside the feed forward and back propagate method, I used openmp with static scheduling and fixed pool size. The pool size was tuned for GHC machines. </p>
+
+<h3>
+<a id="results" class="anchor" href="#results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Results:</h3>
+
+<p>Compared to the sequential version of the same program, my framework achieved roughly 35% speedup while having 200 hidden neurons. As the test result shows, as hidden units increase, my program obtains a better speedup. This is because my framework mainly focuses on parallelizing computing neurons locate at the same level. Nonetheless, this result applies to GHC machines only.<br>
+<img src="https://www.dropbox.com/s/83y4y698n7koe9e/Screen%20Shot%202016-05-09%20at%202.06.21%20AM.png?dl=0" alt=""></p>
+
+<h3>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>References:</h3>
+
+<p>Paper:</p>
+
+<ol>
+<li><p>Abhishek, K., A. Khairwa, T. Pratap, and S. Prakash. "A Stock Market Prediction Model Using Artificial Neural Network." 2012 Third International Conference on Computing, Communication and Networking Technologies (ICCCNT'12) (2012): n. pag. Web.</p></li>
+<li><p>Dahl, George, Alan McAvinney, and Tia Newhall. "Parallelizing neural network training for cluster systems." Proceedings of the IASTED International Conference on Parallel and Distributed Computing and Networks. ACTA Press, 2008.</p></li>
+</ol>
+
+<p>Neural Network Implementation:
+<a href="https://takinginitiative.wordpress.com/2008/04/23/basic-neural-network-tutorial-c-implementation-and-source-code/">https://takinginitiative.wordpress.com/2008/04/23/basic-neural-network-tutorial-c-implementation-and-source-code/</a></p>
+
+<h1>
 <a id="project-checkpoint" class="anchor" href="#project-checkpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Checkpoint</h1>
 
 <h3>
@@ -46,12 +83,12 @@
 <a id="project-proposal" class="anchor" href="#project-proposal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Proposal</h1>
 
 <h3>
-<a id="summary" class="anchor" href="#summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary</h3>
+<a id="summary-1" class="anchor" href="#summary-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary</h3>
 
 <p>I am going to implement an application that predicts stock price. It would involve using neural network and I will parallelize the training process using multi-core cpu platforms/clusters. </p>
 
 <h3>
-<a id="background" class="anchor" href="#background" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Background</h3>
+<a id="background-1" class="anchor" href="#background-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Background</h3>
 
 <p>The training process for neural network has good potential for speedup. A neural network is usually composed of number of neurons separated into multiple levels. Matrix multiplication is usually involved in calculating weights for each neuron. In addition, when using backward propagation algorithm, at each layer, neurons are usually independent from each other. Therefore, we could compute weights for these independent neurons in parallel. Therefore, with large amount of data, we should see a significant speedup after we parallelized the training process.  </p>
 
